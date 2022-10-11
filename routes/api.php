@@ -4,8 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-use App\Http\Controllers\Api\EmployeApi;
-use App\Http\Controllers\Api\StoreApi;
+use App\Http\Controllers\Api\DivisiApi;
 use App\Http\Controllers\Api\GroupsApi;
 use App\Http\Controllers\Api\UsersApi;
 
@@ -22,24 +21,13 @@ use App\Http\Controllers\Api\UsersApi;
 
 
 
-Route::controller(StoreApi::class)->group(
+Route::controller(DivisiApi::class)->group(
     function () {
-        Route::post('/store/all', 'all');
-        Route::post('/store/delete', 'delete');
-        Route::post('/store/view', 'view');
-        Route::post('/store/update', 'update');
-        Route::post('/store/create', 'create');
-    }
-);
-
-
-Route::controller(EmployeApi::class)->group(
-    function () {
-        Route::post('/employe/all', 'all');
-        Route::post('/employe/delete', 'delete');
-        Route::post('/employe/view', 'view');
-        Route::post('/employe/update', 'update');
-        Route::post('/employe/create', 'create');
+        Route::post('/divisi/all', 'all');
+        Route::post('/divisi/delete', 'delete');
+        Route::post('/divisi/view', 'view');
+        Route::post('/divisi/update', 'update');
+        Route::post('/divisi/create', 'create');
     }
 );
 

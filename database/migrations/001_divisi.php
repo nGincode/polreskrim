@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('store', function (Blueprint $table) {
+        Schema::create('divisi', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
             $table->boolean('active');
-            $table->string('tipe', 20);
-            $table->string('address')->nullable();
             $table->string('img')->nullable();
-            $table->string('whatsapp', 15)->nullable();
             $table->boolean('delete')->default(false);
             $table->timestamps();
         });
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('store');
+        Schema::dropIfExists('divisi');
     }
 };

@@ -11,7 +11,7 @@ import Button from "@/Components/Button";
 import Validate from "@/Components/Validate";
 
 export default function Store(props) {
-    const namePage = "Store";
+    const namePage = "Divisi";
     const [processing, setprocessing] = useState(false);
 
     urlOpen("Auth");
@@ -22,7 +22,7 @@ export default function Store(props) {
             try {
                 await axios({
                     method: "POST",
-                    url: "/api/store/create",
+                    url: "/api/divisi/create",
                     data: data,
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -105,35 +105,14 @@ export default function Store(props) {
         { value: "0", label: "Non Active" },
     ];
 
-    const dataTipe = [
-        { value: "Office", label: "Office" },
-        { value: "Outlet", label: "Outlet" },
-        { value: "Dapur Produksi", label: "Dapur Produksi" },
-        { value: "Logistik", label: "Logistik" },
-        { value: "Khusus", label: "Khusus" },
-    ];
-
     const setValidate = {
         name: {
             required: true,
             minlength: 3,
             maxlength: 50,
         },
-        address: {
-            required: true,
-            minlength: 3,
-            maxlength: 191,
-        },
         status: {
             required: true,
-        },
-        tipe: {
-            required: true,
-        },
-        whatsapp: {
-            required: true,
-            minlength: 12,
-            maxlength: 15,
         },
     };
 
@@ -143,21 +122,8 @@ export default function Store(props) {
             minlength: 3,
             maxlength: 50,
         },
-        addressUpdate: {
-            required: true,
-            minlength: 3,
-            maxlength: 191,
-        },
         statusUpdate: {
             required: true,
-        },
-        tipeUpdate: {
-            required: true,
-        },
-        whatsappUpdate: {
-            required: true,
-            minlength: 12,
-            maxlength: 15,
         },
     };
 
@@ -180,7 +146,7 @@ export default function Store(props) {
                         <a>Accounts</a>
                     </li>
                     <li className="breadcrumb-item  active">
-                        <Link href={route("store")}>{namePage}</Link>
+                        <Link href={route("divisi")}>{namePage}</Link>
                     </li>
                 </div>
             </div>
@@ -205,33 +171,17 @@ export default function Store(props) {
                                                         className="form-label"
                                                         htmlFor="name"
                                                     >
-                                                        Name Store
+                                                        Name
                                                     </label>
                                                     <input
                                                         type="text"
                                                         name="name"
                                                         id="name"
                                                         className="form-control"
-                                                        placeholder="Name Store"
+                                                        placeholder="Name"
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Address
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        name="address"
-                                                        id="address"
-                                                        className="form-control"
-                                                        placeholder="Jl. Jend xxx"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
                                             <div className="mb-3 col-md-6">
                                                 <div className="form-group">
                                                     <label className="form-label">
@@ -244,35 +194,8 @@ export default function Store(props) {
                                                     />
                                                 </div>
                                             </div>
-
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Tipe
-                                                    </label>
-                                                    <SelectTo
-                                                        name="tipe"
-                                                        id="tipe"
-                                                        data={dataTipe}
-                                                    />
-                                                </div>
-                                            </div>
                                         </div>
                                         <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Whatsapp
-                                                    </label>
-                                                    <input
-                                                        type="number"
-                                                        name="whatsapp"
-                                                        id="whatsapp"
-                                                        className="form-control"
-                                                        placeholder="0822XXX"
-                                                    />
-                                                </div>
-                                            </div>
                                             <div className="mb-3 col-md-6">
                                                 <div className="form-group">
                                                     <label className="form-label">
@@ -323,10 +246,6 @@ export default function Store(props) {
                                                 title: "Nama",
                                             },
                                             {
-                                                data: "whatsapp",
-                                                title: "Whatsapp",
-                                            },
-                                            {
                                                 data: "status",
                                                 title: "Status",
                                             },
@@ -338,9 +257,9 @@ export default function Store(props) {
                                                 className: "text-right",
                                             },
                                         ]}
-                                        API="/api/store"
+                                        API="/api/divisi"
                                         Method="POST"
-                                        Subject="Store"
+                                        Subject="Divisi"
                                         Action={dataAction()}
                                         setValidate={setValidateUpdate}
                                         csrf_token={props.csrf_token}

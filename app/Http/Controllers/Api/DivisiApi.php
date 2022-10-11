@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\Store;
+use App\Models\Divisi;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 
-class StoreApi extends Controller
+class DivisiApi extends Controller
 {
 
     public function all(Request $request)
@@ -53,7 +53,7 @@ class StoreApi extends Controller
 
 
 
-        foreach (Store::where('delete', false)->orderBy('id', 'DESC')->get() as $key => $value) {
+        foreach (Divisi::where('delete', false)->orderBy('id', 'DESC')->get() as $key => $value) {
 
             if ($action) {
                 $data[] = [
@@ -90,7 +90,7 @@ class StoreApi extends Controller
         $id = $request->input('id');
 
         if ($id) {
-            $data = Store::where('id', $id)->first();
+            $data = Divisi::where('id', $id)->first();
             return response()->json(
                 [
                     'response' => 'success',
@@ -115,7 +115,7 @@ class StoreApi extends Controller
         $id = $request->input('id');
 
         if ($id) {
-            if (Store::where('id', $id)->update(['delete' => true])) {
+            if (Divisi::where('id', $id)->update(['delete' => true])) {
 
                 return response()->json(
                     [
@@ -147,15 +147,12 @@ class StoreApi extends Controller
     public function update(Request $request)
     {
         $name = $request->input('nameUpdate');
-        $tipe = $request->input('tipeUpdate');
-        $address = $request->input('addressUpdate');
-        $whatsapp = $request->input('whatsappUpdate');
         $active = $request->input('statusUpdate');
         $id = $request->input('id');
 
-        if ($id && $name  && $tipe && $address && $whatsapp) {
+        if ($id && $name) {
 
-            if ($Store = Store::where('id', $id)->first()) {
+            if ($Divisi = Divisi::where('id', $id)->first()) {
 
                 $validator = Validator::make(
                     $request->all(),
@@ -164,10 +161,10 @@ class StoreApi extends Controller
                     ]
                 );
 
-                if ($Store['name'] == $name) {
+                if ($Divisi['name'] == $name) {
                     $usernameValidate = $name;
                 } else {
-                    $str = Store::where('name', $name)->count();
+                    $str = Divisi::where('name', $name)->count();
                     if ($str) {
                         return response()->json(
                             [
@@ -198,18 +195,15 @@ class StoreApi extends Controller
                         if ($request->hasFile('img')) {
                             $files = $request->file('img');
                             $imageName = date('YmdHis')  . '.' . $files->getClientOriginalExtension();
-                            $files->move(public_path('uploads/stores'), $imageName);
-                            $urlimg = '/uploads/stores/' . $imageName;
+                            $files->move(public_path('uploads/divisi'), $imageName);
+                            $urlimg = '/uploads/divisi/' . $imageName;
                         } else {
-                            $urlimg = $Store['img'];
+                            $urlimg = $Divisi['img'];
                         }
 
-                        if (store::where('id', $id)->update([
+                        if (Divisi::where('id', $id)->update([
                             'name' => $name,
                             'active' => $active,
-                            'tipe' => $tipe,
-                            'address' => $address,
-                            'whatsapp' => $whatsapp,
                             'img' => $urlimg
                         ])) {
                             return response()->json(
@@ -254,19 +248,12 @@ class StoreApi extends Controller
     public function create(Request $request)
     {
         $name = $request->input('name');
-        $tipe = $request->input('tipe');
-        $address = $request->input('address');
-        $whatsapp = $request->input('whatsapp');
 
-        if ($name && $tipe && $address && $whatsapp) {
+        if ($name) {
             $validator = Validator::make(
                 $request->all(),
                 [
                     'name' => 'required',
-                    'status' => 'required',
-                    'tipe' => 'required',
-                    'address' => 'required',
-                    'whatsapp' => 'required',
                     'img' => 'mimes:jpeg,jpg,png'
                 ]
             );
@@ -283,22 +270,19 @@ class StoreApi extends Controller
                     );
                 }
             } else {
-                if (!Store::where('name', $request->input('name'))->where('delete', false)->count()) {
+                if (!Divisi::where('name', $request->input('name'))->where('delete', false)->count()) {
                     if ($request->hasFile('img')) {
                         $files = $request->file('img');
                         $imageName = date('YmdHis') . '.' . $files->getClientOriginalExtension();
-                        $files->move(public_path('uploads/stores'), $imageName);
-                        $urlimg = url('/') . '/uploads/stores/' . $imageName;
+                        $files->move(public_path('uploads/divisi'), $imageName);
+                        $urlimg =  '/uploads/divisi/' . $imageName;
                     } else {
                         $urlimg = '';
                     }
 
-                    if (store::insert([
+                    if (Divisi::insert([
                         'name' => $request->input('name'),
                         'active' => $request->input('status'),
-                        'tipe' => $request->input('tipe'),
-                        'address' => $request->input('address'),
-                        'whatsapp' => $request->input('whatsapp'),
                         'img' => $urlimg
                     ])) {
                         return response()->json(

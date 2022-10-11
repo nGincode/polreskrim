@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\Divisi;
 use App\Http\Controllers\Groups;
 use App\Http\Controllers\Users;
-use App\Http\Controllers\Store;
-use App\Http\Controllers\Employe;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -62,17 +61,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     );
 
 
-    Route::controller(Store::class)->group(
+    Route::controller(Divisi::class)->group(
         function () {
-            Route::get('/store', 'index')->name('store');
+            Route::get('/divisi', 'index')->name('divisi');
         }
     );
 
-    Route::controller(Employe::class)->group(
-        function () {
-            Route::get('/employe', 'index')->name('employe');
-        }
-    );
 
 
     Route::get('/permission', function () {

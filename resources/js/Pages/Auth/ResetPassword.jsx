@@ -45,7 +45,7 @@ export default function ResetPassword({ token, email }) {
                                                 <Link href="/">
                                                     <center>
                                                         <img
-                                                            src="/assets/logo/prs.png"
+                                                            src="/assets/logo/logobareskrim.png"
                                                             alt=""
                                                             width="150px"
                                                             className="img-fluid"

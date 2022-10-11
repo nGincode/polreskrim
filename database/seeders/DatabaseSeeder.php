@@ -6,14 +6,10 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 
-use App\Models\Store;
+use App\Models\Divisi;
 use App\Models\GroupsUsers;
 use App\Models\Groups;
 use App\Models\User;
-use App\Models\Bahan;
-use App\Models\Bahan_Olahan;
-use App\Models\Olahan;
-use App\Models\Satuan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -45,10 +41,10 @@ class DatabaseSeeder extends Seeder
             'updategroups',
             'viewgroups',
             'deletegroups',
-            'createstore',
-            'updatestore',
-            'viewstore',
-            'deletestore',
+            'createdivisi',
+            'updatedivisi',
+            'viewdivisi',
+            'deletedivisi`',
             'createemploye',
             'updateemploye',
             'deleteemploye',
@@ -75,7 +71,7 @@ class DatabaseSeeder extends Seeder
         ///////////////////////////////////////////////////// DUMMY /////////////////////////////
 
         \App\Models\User::factory(100)->create();
-        \App\Models\Store::factory(100)->create();
+        \App\Models\Divisi::factory(100)->create();
 
         // Store::create([
         //     'nama' => 'CV Prima Rasa Selaras',

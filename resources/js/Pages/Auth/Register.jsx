@@ -54,7 +54,7 @@ export default function Register() {
                                                 <Link href="/">
                                                     <center>
                                                         <img
-                                                            src="./assets/logo/prs.png"
+                                                            src="./assets/logo/logobareskrim.png"
                                                             alt=""
                                                             width="150px"
                                                             className="img-fluid"

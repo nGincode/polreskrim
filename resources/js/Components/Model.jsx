@@ -93,7 +93,7 @@ export default function Model({
             try {
                 await axios({
                     method: "POST",
-                    url: "api/store/all",
+                    url: "api/divisi/all",
                     headers: {
                         "Content-Type": "multipart/form-data",
                         "X-CSRF-TOKEN": csrf_token,
@@ -135,7 +135,7 @@ export default function Model({
         $("#close").click(function () {
             for (
                 let i = 0;
-                i < $(`input[name='${setValidate2[0]}[]']`).length;
+                i < $(`input[name='${setValidate2}[]']`).length;
                 i++
             ) {
                 setTimeout(() => {
@@ -151,10 +151,6 @@ export default function Model({
                     $(`#${val}Update`).prop("checked", true);
                 });
             }
-        }
-
-        if (subject === "Employe") {
-            handleAsync("view");
         }
     }, [modelData]);
 
@@ -199,63 +195,10 @@ export default function Model({
         { value: "0", label: "Non Active" },
     ];
 
-    const dataTipe = [
-        { value: "Office", label: "Office" },
-        { value: "Outlet", label: "Outlet" },
-        { value: "Dapur Produksi", label: "Dapur Produksi" },
-        { value: "Logistik", label: "Logistik" },
-        { value: "Khusus", label: "Khusus" },
-    ];
-
-    const selectReligion = [
-        { value: "Islam", label: "Islam" },
-        { value: "Kristen", label: "Kristen" },
-        { value: "Katholik", label: "Katholik" },
-    ];
-
-    const selectGender = [
-        { value: 2, label: "Female" },
-        { value: 1, label: "Male" },
-    ];
-
-    const selectDivision = [
-        { value: "Owner", label: "Owner" },
-        { value: "Accounting", label: "Accounting" },
-        { value: "Enginering", label: "Enginering" },
-        {
-            value: "Human Resource Development",
-            label: "Human Resource Development",
-        },
-        { value: "Logistics", label: "Logistics" },
-        { value: "Production Kitchen", label: "Production Kitchen" },
-        { value: "Chief Leader", label: "Chief Leader" },
-        { value: "Cashier", label: "Cashier" },
-        { value: "Bartender", label: "Bartender" },
-        { value: "Kitchen", label: "Kitchen" },
-        { value: "Service Crew", label: "Service Crew" },
-        { value: "Music", label: "Music" },
-        { value: "Parking", label: "Parking" },
-        ,
-    ];
-
-    const selectPosition = [
-        { value: "Owner", label: "Owner" },
-        { value: "Supervisor", label: "Supervisor" },
-        { value: "Manager", label: "Manager" },
-        { value: "Leader", label: "Leader" },
-        { value: "Staf", label: "Staf" },
-        { value: "Freelance", label: "Freelance" },
-    ];
-
-    const selectStatus = [
-        { value: "0", label: "Active" },
-        { value: "1", label: "Resign" },
-    ];
-
     const setPermission = [
         {
             subject: "Accounts",
-            data: ["users", "store", "groups", "employe"],
+            data: ["users", "divisi", "groups"],
         },
     ];
 
@@ -285,7 +228,7 @@ export default function Model({
                     <form id="modelForm" onSubmit={submit}>
                         {header === "Update" ? (
                             <div className="modal-body">
-                                {subject === "Store" ? (
+                                {subject === "Divisi" ? (
                                     <div>
                                         <center>
                                             <img
@@ -302,40 +245,20 @@ export default function Model({
                                                         className="form-label"
                                                         htmlFor="name"
                                                     >
-                                                        Name Store
+                                                        Name
                                                     </label>
                                                     <input
                                                         type="text"
                                                         name="nameUpdate"
                                                         id="nameUpdate"
                                                         className="form-control"
-                                                        placeholder="Name Store"
+                                                        placeholder="Name"
                                                         defaultValue={
                                                             modelData?.data.name
                                                         }
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Address
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        name="addressUpdate"
-                                                        id="addressUpdate"
-                                                        className="form-control"
-                                                        placeholder="Jl. Jend xxx"
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .address
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
                                             <div className="mb-3 col-md-6">
                                                 <div className="form-group">
                                                     <label className="form-label">
@@ -354,291 +277,12 @@ export default function Model({
                                                     />
                                                 </div>
                                             </div>
-
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Tipe
-                                                    </label>
-                                                    <SelectTo
-                                                        name="tipeUpdate"
-                                                        id="tipeUpdate"
-                                                        data={dataTipe}
-                                                        defaultValue={
-                                                            modelData?.data.tipe
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
                                         </div>
                                         <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Whatsapp
-                                                    </label>
-                                                    <input
-                                                        type="number"
-                                                        name="whatsappUpdate"
-                                                        id="whatsappUpdate"
-                                                        className="form-control"
-                                                        placeholder="0822XXX"
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .whatsapp
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
                                             <div className="mb-3 col-md-6">
                                                 <div className="form-group">
                                                     <label className="form-label">
                                                         Logo
-                                                    </label>
-                                                    <input
-                                                        type="file"
-                                                        name="img"
-                                                        accept="image/*"
-                                                        className="form-file-input form-control"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                    </div>
-                                ) : subject === "Employe" ? (
-                                    <div>
-                                        <center>
-                                            <img
-                                                src={modelData?.data.img}
-                                                width="100px"
-                                            />
-                                        </center>
-                                        <br />
-
-                                        <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Full Name (KTP)
-                                                    </label>
-                                                    <input
-                                                        name="nameUpdate"
-                                                        id="nameUpdate"
-                                                        type="text"
-                                                        className="form-control"
-                                                        placeholder="Adi Saxxx"
-                                                        defaultValue={
-                                                            modelData?.data.name
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Date of Birth
-                                                    </label>
-                                                    <input
-                                                        type="date"
-                                                        name="date_of_birthUpdate"
-                                                        id="date_of_birthUpdate"
-                                                        className="form-control"
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .date_of_birth
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Birth of Place
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        name="birth_of_placeUpdate"
-                                                        id="birth_of_placeUpdate"
-                                                        className="form-control"
-                                                        placeholder="Bengkxx"
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .birth_of_place
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Date of Entry
-                                                    </label>
-                                                    <input
-                                                        type="date"
-                                                        id="date_of_entryUpdate"
-                                                        name="date_of_entryUpdate"
-                                                        className="form-control"
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .date_of_entry
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Religion
-                                                    </label>
-                                                    <SelectTo
-                                                        name="religionUpdate"
-                                                        id="religionUpdate"
-                                                        data={selectReligion}
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .religion
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Gender
-                                                    </label>
-                                                    <SelectTo
-                                                        name="genderUpdate"
-                                                        id="genderUpdate"
-                                                        data={selectGender}
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .gender
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Address
-                                                    </label>
-                                                    <input
-                                                        name="addressUpdate"
-                                                        id="addressUpdate"
-                                                        type="text"
-                                                        className="form-control"
-                                                        placeholder="Jl. Jend Besar xxx"
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .address
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Whatsapp
-                                                    </label>
-                                                    <input
-                                                        name="whatsappUpdate"
-                                                        id="whatsappUpdate"
-                                                        type="number"
-                                                        className="form-control"
-                                                        placeholder="0853xxxx"
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .whatsapp
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Position
-                                                    </label>
-                                                    <SelectTo
-                                                        name="positionUpdate"
-                                                        id="positionUpdate"
-                                                        data={selectPosition}
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .position
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Division
-                                                    </label>
-                                                    <SelectTo
-                                                        name="divisionUpdate"
-                                                        id="divisionUpdate"
-                                                        data={selectDivision}
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .division
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Store
-                                                    </label>
-                                                    <SelectTo
-                                                        name="storeUpdate"
-                                                        id="storeUpdate"
-                                                        data={dataStore}
-                                                        search={true}
-                                                        defaultValue={
-                                                            modelData?.data
-                                                                .store
-                                                        }
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <div className="form-group">
-                                                        <label className="form-label">
-                                                            Status
-                                                        </label>
-                                                        <SelectTo
-                                                            name="activeUpdate"
-                                                            id="activeUpdate"
-                                                            data={selectStatus}
-                                                            defaultValue={
-                                                                modelData?.data
-                                                                    .active
-                                                                    ? "1"
-                                                                    : "0"
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="mb-3 col-md-6">
-                                                <div className="form-group">
-                                                    <label className="form-label">
-                                                        Foto
                                                     </label>
                                                     <input
                                                         type="file"

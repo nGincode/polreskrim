@@ -154,7 +154,7 @@ export default function Groups(props) {
     const setPermission = [
         {
             subject: "Accounts",
-            data: ["users", "store", "groups", "employe"],
+            data: ["users", "divisi", "groups"],
         },
     ];
 

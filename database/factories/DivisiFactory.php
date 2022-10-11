@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class StoreFactory extends Factory
+class DivisiFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +19,6 @@ class StoreFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'tipe' => 'Outlet',
-            'address' => $this->faker->address(),
-            'whatsapp' => $this->faker->e164PhoneNumber(),
             'img' => $this->faker->imageUrl(),
             'active' => 1,
         ];

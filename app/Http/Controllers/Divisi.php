@@ -6,7 +6,7 @@ use App\Models\GroupsUsers;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class Store extends Controller
+class Divisi extends Controller
 {
     public function index()
     {
@@ -17,6 +17,6 @@ class Store extends Controller
             $permission = [];
         }
 
-        return Inertia::render('Store', ['csrf_token' => csrf_token(), 'permission' => $permission]);
+        return Inertia::render('Divisi', ['csrf_token' => csrf_token(), 'permission' => $permission]);
     }
 }

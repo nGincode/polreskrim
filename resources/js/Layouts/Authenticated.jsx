@@ -63,8 +63,7 @@ export default function Authenticated({ auth, children }) {
     const dataMenu = {
         dashboard: ["dashboard"],
         users: ["accounts", "users"],
-        store: ["accounts", "store"],
-        employe: ["accounts", "employe"],
+        divisi: ["accounts", "divisi"],
         groups: ["accounts", "groups"],
     };
 
@@ -262,9 +261,9 @@ export default function Authenticated({ auth, children }) {
                                             </>
                                         )}
 
-                                        {handlePermission("store") && (
+                                        {handlePermission("divisi") && (
                                             <>
-                                                {Menu[1] === "store" ? (
+                                                {Menu[1] === "divisi" ? (
                                                     <li className="mm-active">
                                                         <a
                                                             className="ai-icon mm-active"
@@ -272,7 +271,7 @@ export default function Authenticated({ auth, children }) {
                                                                 cursor: "default",
                                                             }}
                                                         >
-                                                            Store
+                                                            DIvisi
                                                         </a>
                                                     </li>
                                                 ) : (
@@ -280,50 +279,16 @@ export default function Authenticated({ auth, children }) {
                                                         <Link
                                                             className="ai-icon"
                                                             href={route(
-                                                                "store"
+                                                                "divisi"
                                                             )}
                                                             onClick={() => {
                                                                 activeMenu([
                                                                     "accounts",
-                                                                    "store",
+                                                                    "divisi",
                                                                 ]);
                                                             }}
                                                         >
-                                                            Store
-                                                        </Link>
-                                                    </li>
-                                                )}
-                                            </>
-                                        )}
-
-                                        {handlePermission("employe") && (
-                                            <>
-                                                {Menu[1] === "employe" ? (
-                                                    <li className="mm-active">
-                                                        <a
-                                                            className="ai-icon mm-active"
-                                                            style={{
-                                                                cursor: "default",
-                                                            }}
-                                                        >
-                                                            Employe
-                                                        </a>
-                                                    </li>
-                                                ) : (
-                                                    <li>
-                                                        <Link
-                                                            className="ai-icon"
-                                                            href={route(
-                                                                "employe"
-                                                            )}
-                                                            onClick={() => {
-                                                                activeMenu([
-                                                                    "accounts",
-                                                                    "employe",
-                                                                ]);
-                                                            }}
-                                                        >
-                                                            Employe
+                                                            Divisi
                                                         </Link>
                                                     </li>
                                                 )}
@@ -398,36 +363,19 @@ export default function Authenticated({ auth, children }) {
                                             </li>
                                         )}
 
-                                        {handlePermission("store") && (
+                                        {handlePermission("divisi") && (
                                             <li>
                                                 <Link
                                                     className="ai-icon"
-                                                    href={route("store")}
+                                                    href={route("divisi")}
                                                     onClick={() => {
                                                         activeMenu([
                                                             "accounts",
-                                                            "store",
+                                                            "divisi",
                                                         ]);
                                                     }}
                                                 >
-                                                    Store
-                                                </Link>
-                                            </li>
-                                        )}
-
-                                        {handlePermission("employe") && (
-                                            <li>
-                                                <Link
-                                                    className="ai-icon"
-                                                    href={route("employe")}
-                                                    onClick={() => {
-                                                        activeMenu([
-                                                            "accounts",
-                                                            "employe",
-                                                        ]);
-                                                    }}
-                                                >
-                                                    Employe
+                                                    Divisi
                                                 </Link>
                                             </li>
                                         )}
@@ -454,7 +402,7 @@ export default function Authenticated({ auth, children }) {
                         </ul>
                         <div className="copyright">
                             <p>
-                                <strong>PRS System V.3</strong> ©
+                                <strong>POLDA BENGKULU V.1</strong> ©
                                 {new Date().getFullYear()} All Rights Reserved
                             </p>
                         </div>
@@ -462,7 +410,7 @@ export default function Authenticated({ auth, children }) {
                 </div>
                 <div className="nav-header">
                     <div className="brand-logo">
-                        <ApplicationLogo className="mt-3" width="100px" />
+                        <ApplicationLogo className="mt-3" width="50px" />
                     </div>
                     <div className="nav-control">
                         <div className="hamburger">
