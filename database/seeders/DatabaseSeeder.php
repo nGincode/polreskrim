@@ -44,11 +44,11 @@ class DatabaseSeeder extends Seeder
             'createdivisi',
             'updatedivisi',
             'viewdivisi',
-            'deletedivisi`',
-            'createemploye',
-            'updateemploye',
-            'deleteemploye',
-            'viewemploye'
+            'deletedivisi',
+            'createreport',
+            'updatereport',
+            'viewreport',
+            'deletereport',
         );
         Groups::create([
             'name' => 'Super Admin',
@@ -70,8 +70,8 @@ class DatabaseSeeder extends Seeder
 
         ///////////////////////////////////////////////////// DUMMY /////////////////////////////
 
-        \App\Models\User::factory(100)->create();
-        \App\Models\Divisi::factory(100)->create();
+        // \App\Models\User::factory(100)->create();
+        // \App\Models\Divisi::factory(100)->create();
 
         // Store::create([
         //     'nama' => 'CV Prima Rasa Selaras',

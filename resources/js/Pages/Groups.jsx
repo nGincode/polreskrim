@@ -156,6 +156,10 @@ export default function Groups(props) {
             subject: "Accounts",
             data: ["users", "divisi", "groups"],
         },
+        {
+            subject: "Report",
+            data: ["report"],
+        },
     ];
 
     const setValidate = {

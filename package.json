@@ -40,6 +40,7 @@
         "react-icons": "^4.4.0",
         "react-select": "^5.4.0",
         "skeleton-screen-css": "^1.0.1",
+        "sweetalert2": "^11.6.2",
         "toastr": "^2.1.4",
         "uuid": "^9.0.0"
     }

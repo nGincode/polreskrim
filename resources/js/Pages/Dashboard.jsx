@@ -9,7 +9,7 @@ import Skeleton from "@/Components/Skeleton";
 import "chart.js/auto";
 import { Chart } from "react-chartjs-2";
 import ApexCharts from "react-apexcharts";
-import { MdWavingHand } from "react-icons/md";
+import { MdAssignment } from "react-icons/md";
 
 export default function Dashboard(props) {
     const namePage = "Dashboard";
@@ -32,27 +32,15 @@ export default function Dashboard(props) {
                         <div className="card coin-card">
                             <div className="card-body d-sm-flex d-block align-items-center">
                                 <span className="coin-icon">
-                                    <MdWavingHand size={70} />
+                                    <MdAssignment size={70} />
                                 </span>
                                 <div>
-                                    <h3 className="text-white">
-                                        Haii..!! {props.auth.user.username}
-                                    </h3>
-                                    {props.employe ? (
-                                        <p>
-                                            Selamat Datang {props.employe.name}
-                                            <br /> Anda Bergabung Dalam Divisi{" "}
-                                            {
-                                                props.employe.division
-                                            } Sebagai{" "}
-                                            <b>{props.employe.position}</b>
-                                        </p>
-                                    ) : (
-                                        <p>
-                                            Anda telah berhasil login, Anda
-                                            sedang divaliadasi oleh pihak admin
-                                        </p>
-                                    )}
+                                    <h1 className="text-white invoice-num">
+                                        {props.total}
+                                    </h1>
+                                    <span className="text-white fs-18">
+                                        Total Kasus
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +59,7 @@ export default function Dashboard(props) {
                                 </div>
                                 <div>
                                     <h2 className="text-white invoice-num">
-                                        2478
+                                        {props.Dihentikan}
                                     </h2>
                                     <span className="text-white fs-18">
                                         Total Kasus Dihentikan
@@ -99,7 +87,7 @@ export default function Dashboard(props) {
                                 </div>
                                 <div>
                                     <h2 className="text-white invoice-num">
-                                        983
+                                        {props.Selesai}
                                     </h2>
                                     <span className="text-white fs-18">
                                         Total Kasus Selesai
@@ -127,10 +115,10 @@ export default function Dashboard(props) {
                                 </div>
                                 <div>
                                     <h2 className="text-white invoice-num">
-                                        1256
+                                        {props.Proses}
                                     </h2>
                                     <span className="text-white fs-18">
-                                        Total Kasus Proses
+                                        Total Kasus Dalam Proses
                                     </span>
                                 </div>
                             </div>
@@ -150,7 +138,7 @@ export default function Dashboard(props) {
                                 </div>
                                 <div>
                                     <h2 className="text-white invoice-num">
-                                        652
+                                        {props.BerhentiSementara}
                                     </h2>
                                     <span className="text-white fs-18">
                                         Total Kasus Berhenti Sementara

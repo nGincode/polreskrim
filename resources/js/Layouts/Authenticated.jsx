@@ -36,6 +36,9 @@ import toastr from "toastr";
 window.toastr = toastr;
 import "toastr/build/toastr.min.css";
 
+import styleCustom from "../../../public/assets/css/custom.css";
+import styleReactSelect from "../../../public/assets/css/react-select.css";
+
 export default function Authenticated({ auth, children }) {
     const [permission, setpermission] = useState([]);
 
@@ -65,6 +68,7 @@ export default function Authenticated({ auth, children }) {
         users: ["accounts", "users"],
         divisi: ["accounts", "divisi"],
         groups: ["accounts", "groups"],
+        report: ["report"],
     };
 
     const [Menu, setMenu] = useState(
@@ -81,6 +85,37 @@ export default function Authenticated({ auth, children }) {
 
     const activeMenu = (id) => {
         setMenu(id);
+    };
+
+    const mainMenu = [
+        {
+            menu: { name: "dashboard", icon: "fa fa-dashboard" },
+        },
+        {
+            menu: { name: "accounts", icon: "fa fa-users" },
+            submenu: [
+                { name: "users", icon: "fa fa-user" },
+                { name: "divisi", icon: "fa fa-home" },
+                { name: "groups", icon: "fa fa-handshake-o" },
+            ],
+        },
+        {
+            menu: { name: "report", icon: "fa fa-briefcase" },
+        },
+    ];
+
+    const in_Array = (value, fix) => {
+        var res = false;
+        value.map((val, i) => {
+            if (fix.includes(val)) {
+                res = true;
+            }
+        });
+        return res;
+    };
+
+    const unique_Array = (data) => {
+        return [...new Set(data)];
     };
 
     return (
@@ -181,228 +216,307 @@ export default function Authenticated({ auth, children }) {
                                     </a>
                                 </div>
                             </li>
-                            {Menu[0] === "dashboard" ? (
-                                <li className="mm-active">
-                                    <a
-                                        className="ai-icon mm-active m-active"
-                                        aria-expanded="true"
-                                        style={{ cursor: "default" }}
-                                    >
-                                        <i className="flaticon-025-dashboard"></i>
-                                        <span className="nav-text">
-                                            Dashboard
-                                        </span>
-                                    </a>
-                                </li>
-                            ) : (
-                                <li>
-                                    <Link
-                                        className="ai-icon"
-                                        href={route("dashboard")}
-                                        aria-expanded="false"
-                                        onClick={() => {
-                                            activeMenu(["dashboard"]);
-                                        }}
-                                    >
-                                        <i className="flaticon-025-dashboard"></i>
-                                        <span className="nav-text">
-                                            Dashboard
-                                        </span>
-                                    </Link>
-                                </li>
-                            )}
+                            {mainMenu.map((val, i) => {
+                                var prosPermis = [];
+                                permission.map((val, i) => {
+                                    prosPermis.push(
+                                        val
+                                            .replace("create", "")
+                                            .replace("update", "")
+                                            .replace("delete", "")
+                                            .replace("view", "")
+                                    );
+                                });
 
-                            {Menu[0] === "accounts" ? (
-                                <li className="mm-active">
-                                    <a
-                                        className="has-arrow ai-icon mm-active m-active"
-                                        aria-expanded="true"
-                                    >
-                                        <i className="flaticon-050-info"></i>
-                                        <span className="nav-text">
-                                            Accounts
-                                        </span>
-                                    </a>
-                                    <ul
-                                        aria-expanded="true"
-                                        className="mm-collapse mm-show"
-                                    >
-                                        {handlePermission("users") && (
-                                            <>
-                                                {Menu[1] === "users" ? (
-                                                    <li className="mm-active">
-                                                        <a
-                                                            className="ai-icon mm-active"
-                                                            style={{
-                                                                cursor: "default",
-                                                            }}
-                                                        >
-                                                            Users
-                                                        </a>
-                                                    </li>
-                                                ) : (
-                                                    <li>
-                                                        <Link
-                                                            className="ai-icon"
-                                                            href={route(
-                                                                "users"
-                                                            )}
-                                                            onClick={() => {
-                                                                activeMenu([
-                                                                    "accounts",
-                                                                    "users",
-                                                                ]);
-                                                            }}
-                                                        >
-                                                            Users
-                                                        </Link>
-                                                    </li>
-                                                )}
-                                            </>
-                                        )}
+                                var prosMenu = [];
+                                prosMenu.push(val.menu.name);
+                                val.submenu?.map((val, i) => {
+                                    prosMenu.push(val.name);
+                                });
 
-                                        {handlePermission("divisi") && (
-                                            <>
-                                                {Menu[1] === "divisi" ? (
-                                                    <li className="mm-active">
-                                                        <a
-                                                            className="ai-icon mm-active"
+                                var hiddenMenu = "none";
+                                if (
+                                    in_Array(
+                                        prosMenu,
+                                        unique_Array(prosPermis)
+                                    ) ||
+                                    val.menu.name === "dashboard"
+                                ) {
+                                    hiddenMenu = "flex";
+                                }
+                                return (
+                                    <li
+                                        className={
+                                            Menu[0] === val.menu.name
+                                                ? "mm-active"
+                                                : ""
+                                        }
+                                        style={{ display: hiddenMenu }}
+                                        key={i}
+                                    >
+                                        {val.submenu ? (
+                                            Menu[0] === val.menu.name ? (
+                                                <>
+                                                    <a
+                                                        className="has-arrow ai-icon mm-active m-active"
+                                                        aria-expanded="true"
+                                                    >
+                                                        <i
+                                                            className={
+                                                                val.menu.icon
+                                                            }
+                                                        ></i>
+                                                        <span
+                                                            className="nav-text"
                                                             style={{
-                                                                cursor: "default",
+                                                                textTransform:
+                                                                    "capitalize",
                                                             }}
                                                         >
-                                                            DIvisi
-                                                        </a>
-                                                    </li>
-                                                ) : (
-                                                    <li>
-                                                        <Link
-                                                            className="ai-icon"
-                                                            href={route(
-                                                                "divisi"
-                                                            )}
-                                                            onClick={() => {
-                                                                activeMenu([
-                                                                    "accounts",
-                                                                    "divisi",
-                                                                ]);
-                                                            }}
-                                                        >
-                                                            Divisi
-                                                        </Link>
-                                                    </li>
-                                                )}
-                                            </>
-                                        )}
+                                                            {val.menu.name}
+                                                        </span>
+                                                    </a>
 
-                                        {handlePermission("groups") && (
-                                            <>
-                                                {Menu[1] === "groups" ? (
-                                                    <li className="mm-active">
-                                                        <a
-                                                            className="ai-icon mm-active"
-                                                            style={{
-                                                                cursor: "default",
-                                                            }}
+                                                    {val.submenu && (
+                                                        <ul
+                                                            aria-expanded="true"
+                                                            className="mm-collapse mm-show"
                                                         >
-                                                            Groups
-                                                        </a>
-                                                    </li>
-                                                ) : (
-                                                    <li>
-                                                        <Link
-                                                            className="ai-icon"
-                                                            href={route(
-                                                                "groups"
+                                                            {val.submenu.map(
+                                                                (val1, i1) => {
+                                                                    return (
+                                                                        handlePermission(
+                                                                            val1.name
+                                                                        ) && (
+                                                                            <li
+                                                                                className={
+                                                                                    Menu[1] ===
+                                                                                    val1.name
+                                                                                        ? "mm-active"
+                                                                                        : ""
+                                                                                }
+                                                                                key={
+                                                                                    i1
+                                                                                }
+                                                                            >
+                                                                                {Menu[1] ===
+                                                                                val1.name ? (
+                                                                                    <a
+                                                                                        className="ai-icon mm-active -ml-8"
+                                                                                        style={{
+                                                                                            cursor: "default",
+                                                                                            textTransform:
+                                                                                                "capitalize",
+                                                                                        }}
+                                                                                    >
+                                                                                        <i
+                                                                                            style={{
+                                                                                                fontSize:
+                                                                                                    "15px",
+                                                                                            }}
+                                                                                            className={
+                                                                                                val1.icon
+                                                                                            }
+                                                                                        ></i>
+                                                                                        {val1.name.replace(
+                                                                                            "_",
+                                                                                            " "
+                                                                                        )}
+                                                                                    </a>
+                                                                                ) : (
+                                                                                    <Link
+                                                                                        className="ai-icon  -ml-8"
+                                                                                        href={route(
+                                                                                            val1.name.replace(
+                                                                                                "_",
+                                                                                                ""
+                                                                                            )
+                                                                                        )}
+                                                                                        onClick={() => {
+                                                                                            activeMenu(
+                                                                                                [
+                                                                                                    val
+                                                                                                        .menu
+                                                                                                        .name,
+                                                                                                    val1.name,
+                                                                                                ]
+                                                                                            );
+                                                                                        }}
+                                                                                        style={{
+                                                                                            textTransform:
+                                                                                                "capitalize",
+                                                                                        }}
+                                                                                    >
+                                                                                        <i
+                                                                                            className={
+                                                                                                val1.icon
+                                                                                            }
+                                                                                            style={{
+                                                                                                fontSize:
+                                                                                                    "15px",
+                                                                                            }}
+                                                                                        ></i>
+                                                                                        {val1.name.replace(
+                                                                                            "_",
+                                                                                            " "
+                                                                                        )}
+                                                                                    </Link>
+                                                                                )}
+                                                                            </li>
+                                                                        )
+                                                                    );
+                                                                }
                                                             )}
-                                                            onClick={() => {
-                                                                activeMenu([
-                                                                    "accounts",
-                                                                    "groups",
-                                                                ]);
+                                                        </ul>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <a
+                                                        className="has-arrow ai-icon"
+                                                        aria-expanded="false"
+                                                    >
+                                                        <i
+                                                            className={
+                                                                val.menu.icon
+                                                            }
+                                                        ></i>
+                                                        <span
+                                                            className="nav-text"
+                                                            style={{
+                                                                textTransform:
+                                                                    "capitalize",
                                                             }}
                                                         >
-                                                            Groups
-                                                        </Link>
-                                                    </li>
-                                                )}
+                                                            {val.menu.name}
+                                                        </span>
+                                                    </a>
+                                                    {val.submenu && (
+                                                        <ul
+                                                            aria-expanded="false"
+                                                            className="mm-collapse"
+                                                            style={{
+                                                                height: "16px",
+                                                            }}
+                                                        >
+                                                            {val.submenu.map(
+                                                                (val2, i2) => {
+                                                                    return (
+                                                                        handlePermission(
+                                                                            val2.name
+                                                                        ) && (
+                                                                            <li
+                                                                                key={
+                                                                                    i2
+                                                                                }
+                                                                            >
+                                                                                <Link
+                                                                                    className="ai-icon -ml-8"
+                                                                                    href={route(
+                                                                                        val2.name.replace(
+                                                                                            "_",
+                                                                                            ""
+                                                                                        )
+                                                                                    )}
+                                                                                    onClick={() => {
+                                                                                        activeMenu(
+                                                                                            [
+                                                                                                val
+                                                                                                    .menu
+                                                                                                    .name,
+                                                                                                val2.name,
+                                                                                            ]
+                                                                                        );
+                                                                                    }}
+                                                                                    style={{
+                                                                                        textTransform:
+                                                                                            "capitalize",
+                                                                                    }}
+                                                                                >
+                                                                                    <i
+                                                                                        className={
+                                                                                            val2.icon
+                                                                                        }
+                                                                                        style={{
+                                                                                            fontSize:
+                                                                                                "15px",
+                                                                                        }}
+                                                                                    ></i>
+                                                                                    {val2.name.replace(
+                                                                                        "_",
+                                                                                        " "
+                                                                                    )}
+                                                                                </Link>
+                                                                            </li>
+                                                                        )
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </ul>
+                                                    )}
+                                                </>
+                                            )
+                                        ) : Menu[0] === val.menu.name ? (
+                                            <>
+                                                <a
+                                                    className="ai-icon mm-active m-active"
+                                                    aria-expanded="true"
+                                                    style={{
+                                                        cursor: "default",
+                                                    }}
+                                                >
+                                                    <i
+                                                        className={
+                                                            val.menu.icon
+                                                        }
+                                                    ></i>
+                                                    <span
+                                                        className="nav-text"
+                                                        style={{
+                                                            textTransform:
+                                                                "capitalize",
+                                                        }}
+                                                    >
+                                                        {val.menu.name}
+                                                    </span>
+                                                </a>
                                             </>
-                                        )}
-                                    </ul>
-                                </li>
-                            ) : (
-                                <li>
-                                    <a
-                                        className="has-arrow ai-icon"
-                                        aria-expanded="false"
-                                    >
-                                        <i className="flaticon-050-info"></i>
-                                        <span className="nav-text">
-                                            Accounts
-                                        </span>
-                                    </a>
-                                    <ul
-                                        aria-expanded="false"
-                                        className="mm-collapse"
-                                        style={{ height: "16px" }}
-                                    >
-                                        {handlePermission("users") && (
-                                            <li>
+                                        ) : (
+                                            <>
                                                 <Link
                                                     className="ai-icon"
-                                                    href={route("users")}
+                                                    href={route(val.menu.name)}
+                                                    aria-expanded="false"
                                                     onClick={() => {
                                                         activeMenu([
-                                                            "accounts",
-                                                            "users",
+                                                            val.menu.name,
                                                         ]);
                                                     }}
                                                 >
-                                                    Users
+                                                    <i
+                                                        className={
+                                                            val.menu.icon
+                                                        }
+                                                    ></i>
+                                                    <span
+                                                        className="nav-text"
+                                                        style={{
+                                                            textTransform:
+                                                                "capitalize",
+                                                        }}
+                                                    >
+                                                        {val.menu.name}
+                                                    </span>
                                                 </Link>
-                                            </li>
+                                            </>
                                         )}
-
-                                        {handlePermission("divisi") && (
-                                            <li>
-                                                <Link
-                                                    className="ai-icon"
-                                                    href={route("divisi")}
-                                                    onClick={() => {
-                                                        activeMenu([
-                                                            "accounts",
-                                                            "divisi",
-                                                        ]);
-                                                    }}
-                                                >
-                                                    Divisi
-                                                </Link>
-                                            </li>
-                                        )}
-
-                                        {handlePermission("groups") && (
-                                            <li>
-                                                <Link
-                                                    className="ai-icon"
-                                                    href={route("groups")}
-                                                    onClick={() => {
-                                                        activeMenu([
-                                                            "accounts",
-                                                            "groups",
-                                                        ]);
-                                                    }}
-                                                >
-                                                    Groups
-                                                </Link>
-                                            </li>
-                                        )}
-                                    </ul>
-                                </li>
-                            )}
+                                    </li>
+                                );
+                            })}
                         </ul>
                         <div className="copyright">
                             <p>
-                                <strong>POLDA BENGKULU V.1</strong> ©
+                                <strong>PRS System V.3</strong> ©
                                 {new Date().getFullYear()} All Rights Reserved
                             </p>
                         </div>
@@ -1578,7 +1692,11 @@ export default function Authenticated({ auth, children }) {
                                         style={{ textTransform: "capitalize" }}
                                         className="dashboard_bar mt-3"
                                     >
-                                        <b>{Menu[1] ?? Menu[0]}</b>
+                                        <b>
+                                            {Menu[1]
+                                                ? Menu[1].replace("_", " ")
+                                                : Menu[0].replace("_", " ")}
+                                        </b>
                                     </div>
                                 </div>
                                 <ul className="navbar-nav header-right">
@@ -1748,6 +1866,8 @@ export default function Authenticated({ auth, children }) {
             </div>
             {ScriptCustom()}
             {ScriptNav()}
+            {<style>{styleCustom}</style>}
+            {<style>{styleReactSelect}</style>}
         </>
     );
 }

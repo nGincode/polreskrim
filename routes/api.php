@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ReportApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,5 +51,16 @@ Route::controller(UsersApi::class)->group(
         Route::post('/users/view', 'view');
         Route::post('/users/update', 'update');
         Route::post('/users/create', 'create');
+    }
+);
+
+
+Route::controller(ReportApi::class)->group(
+    function () {
+        Route::post('/report/all', 'all');
+        Route::post('/report/delete', 'delete');
+        Route::post('/report/view', 'view');
+        Route::post('/report/update', 'update');
+        Route::post('/report/create', 'create');
     }
 );

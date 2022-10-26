@@ -4,6 +4,8 @@ use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Divisi;
 use App\Http\Controllers\Groups;
 use App\Http\Controllers\Users;
+use App\Http\Controllers\Report;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -64,6 +66,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(Divisi::class)->group(
         function () {
             Route::get('/divisi', 'index')->name('divisi');
+        }
+    );
+
+
+    Route::controller(Report::class)->group(
+        function () {
+            Route::get('/report', 'index')->name('report');
         }
     );
 

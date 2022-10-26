@@ -5,6 +5,9 @@ import SelectTo from "@/Components/SelectTo";
 import Button from "@/Components/Button";
 import Toastr from "@/Components/Toastr";
 import Validate from "@/Components/Validate";
+import { event } from "jquery";
+
+import Swal from "sweetalert2";
 
 export default function Model({
     header,
@@ -19,7 +22,7 @@ export default function Model({
     const [dataUsers, setdataUsers] = useState([]);
     const [dataStore, setdataStore] = useState([]);
 
-    const handleAsync = async (tipe) => {
+    const handleAsync = async (tipe, data) => {
         if (tipe === "update") {
             var data = new FormData($("#modelForm")[0]);
             data.append("id", modelData?.data.id);
@@ -70,6 +73,7 @@ export default function Model({
                     url: Api + "/delete",
                     data: {
                         id: modelData?.data.id,
+                        file: "'" + data + "'",
                     },
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -200,7 +204,34 @@ export default function Model({
             subject: "Accounts",
             data: ["users", "divisi", "groups"],
         },
+        {
+            subject: "Report",
+            data: ["report"],
+        },
     ];
+
+    const [selected, setSelected] = useState();
+
+    const handleChangesetSelected = (event) => {
+        setSelected(event.target.value);
+    };
+
+    const deleteHendel = (val) => {
+        console.log(val);
+        Swal.fire({
+            title: "Yakin ingin menghapus file?",
+            text: "File akan terhapus dari system!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleAsync("delete", val);
+            }
+        });
+    };
 
     return (
         <div
@@ -562,6 +593,342 @@ export default function Model({
                                                 />
                                             </div>
                                         </div>
+                                    </div>
+                                ) : subject === "Report" ? (
+                                    <div>
+                                        <div className="row">
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        No Report
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="noUpdate"
+                                                        id="noUpdate"
+                                                        className="form-control"
+                                                        placeholder="No Report"
+                                                        defaultValue={
+                                                            modelData?.data.id
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Waktu di laporkan
+                                                    </label>
+                                                    <input
+                                                        type="datetime-local"
+                                                        name="dateUpdate"
+                                                        defaultValue={
+                                                            modelData?.data.tgl
+                                                        }
+                                                        id="date"
+                                                        className="form-control"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Pelapor
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="pelaporUpdate"
+                                                        id="pelaporUpdate"
+                                                        className="form-control"
+                                                        placeholder="Pelapor"
+                                                        defaultValue={
+                                                            modelData?.data
+                                                                .pelapor
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Kejadian yang dilaporkan
+                                                    </label>
+                                                    <textarea
+                                                        type="text"
+                                                        name="kejadianUpdate"
+                                                        id="kejadianUpdate"
+                                                        style={{
+                                                            paddingTop: "10px",
+                                                            height: "100px",
+                                                        }}
+                                                        className="form-control"
+                                                        placeholder="Kejadian"
+                                                        defaultValue={
+                                                            modelData?.data
+                                                                .kejadian
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Tindak Pidana
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="pidanaUpdate"
+                                                        id="pidanaUpdate"
+                                                        className="form-control"
+                                                        placeholder="Pidana"
+                                                        defaultValue={
+                                                            modelData?.data
+                                                                .pidana
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Terlapor
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="terlaporUpdate"
+                                                        id="terlaporUpdate"
+                                                        className="form-control"
+                                                        placeholder="Terlapor"
+                                                        defaultValue={
+                                                            modelData?.data
+                                                                .terlapor
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Tindak Lanjut
+                                                    </label>
+                                                    <textarea
+                                                        type="text"
+                                                        name="tindak_lanjut"
+                                                        id="tindak_lanjut"
+                                                        style={{
+                                                            paddingTop: "10px",
+                                                            height: "100px",
+                                                        }}
+                                                        className="form-control"
+                                                        placeholder="Tidak Lanjut"
+                                                        defaultValue={
+                                                            modelData?.data
+                                                                .tindak_lanjut
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Progress
+                                                    </label>
+                                                    <br />
+                                                    <ul className="tab">
+                                                        <li>
+                                                            <input
+                                                                id="tab1"
+                                                                type="radio"
+                                                                name="progress"
+                                                                value="Proses"
+                                                                checked={
+                                                                    selected
+                                                                        ? selected ===
+                                                                          "Proses"
+                                                                        : modelData
+                                                                              ?.data
+                                                                              .progres ===
+                                                                          "Proses"
+                                                                }
+                                                                onChange={
+                                                                    handleChangesetSelected
+                                                                }
+                                                            />
+                                                            <label htmlFor="tab1">
+                                                                Proses
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input
+                                                                id="tab2"
+                                                                type="radio"
+                                                                name="progress"
+                                                                value="Dihentikan"
+                                                                checked={
+                                                                    selected
+                                                                        ? selected ===
+                                                                          "Dihentikan"
+                                                                        : modelData
+                                                                              ?.data
+                                                                              .progres ===
+                                                                          "Dihentikan"
+                                                                }
+                                                                onChange={
+                                                                    handleChangesetSelected
+                                                                }
+                                                            />
+                                                            <label htmlFor="tab2">
+                                                                Dihentikan
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input
+                                                                id="tab3"
+                                                                type="radio"
+                                                                name="progress"
+                                                                value="Berhenti Sementara"
+                                                                checked={
+                                                                    selected
+                                                                        ? selected ===
+                                                                          "Berhenti Sementara"
+                                                                        : modelData
+                                                                              ?.data
+                                                                              .progres ===
+                                                                          "Berhenti Sementara"
+                                                                }
+                                                                onChange={
+                                                                    handleChangesetSelected
+                                                                }
+                                                            />
+                                                            <label htmlFor="tab3">
+                                                                Berhenti
+                                                                Sementara
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input
+                                                                id="tab4"
+                                                                type="radio"
+                                                                name="progress"
+                                                                value="Selesai"
+                                                                checked={
+                                                                    selected
+                                                                        ? selected ===
+                                                                          "Selesai"
+                                                                        : modelData
+                                                                              ?.data
+                                                                              .progres ===
+                                                                          "Selesai"
+                                                                }
+                                                                onChange={
+                                                                    handleChangesetSelected
+                                                                }
+                                                            />
+                                                            <label htmlFor="tab4">
+                                                                Selesai
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Ubah Berkas Lainnya
+                                                    </label>
+
+                                                    <input
+                                                        type="file"
+                                                        name="file"
+                                                        accept="image/jpeg,image/jpeg,image/gif,image/png,application/pdf"
+                                                        className="form-file-input form-control"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div className="flex justify-center ">
+                                            {modelData?.data?.file
+                                                ? JSON.parse(
+                                                      modelData?.data?.file
+                                                  ).map((val, i) => {
+                                                      if (
+                                                          val.split(".")[1] !=
+                                                          "pdf"
+                                                      ) {
+                                                          return (
+                                                              <center
+                                                                  key={i}
+                                                                  className="m-2"
+                                                              >
+                                                                  <a
+                                                                      href={`${val}`}
+                                                                      target="_blank"
+                                                                  >
+                                                                      <img
+                                                                          src={
+                                                                              val
+                                                                          }
+                                                                          width="120px"
+                                                                      />
+                                                                  </a>
+                                                                  <a
+                                                                      className="badge badge-danger mt-1"
+                                                                      value={i}
+                                                                      onClick={() =>
+                                                                          deleteHendel(
+                                                                              i
+                                                                          )
+                                                                      }
+                                                                  >
+                                                                      Delete
+                                                                  </a>
+                                                              </center>
+                                                          );
+                                                      } else {
+                                                          return (
+                                                              <center key={i}>
+                                                                  <a
+                                                                      href={`${val}`}
+                                                                      target="_blank"
+                                                                  >
+                                                                      <div
+                                                                          className="m-2 align-middle border-2 border-black"
+                                                                          style={{
+                                                                              padding:
+                                                                                  "30px",
+                                                                          }}
+                                                                      >
+                                                                          PDF
+                                                                      </div>
+                                                                  </a>
+                                                                  <a
+                                                                      className="badge badge-danger"
+                                                                      value={i}
+                                                                      onClick={() =>
+                                                                          deleteHendel(
+                                                                              i
+                                                                          )
+                                                                      }
+                                                                  >
+                                                                      Delete
+                                                                  </a>
+                                                              </center>
+                                                          );
+                                                      }
+                                                  })
+                                                : ""}
+                                        </div>
+                                        <hr />
                                     </div>
                                 ) : (
                                     "Gagal Mengambil Data"

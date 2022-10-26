@@ -10,8 +10,8 @@ import Toastr from "@/Components/Toastr";
 import Button from "@/Components/Button";
 import Validate from "@/Components/Validate";
 
-export default function Store(props) {
-    const namePage = "Divisi";
+export default function Report(props) {
+    const namePage = "Report";
     const [processing, setprocessing] = useState(false);
 
     urlOpen("Auth");
@@ -19,10 +19,11 @@ export default function Store(props) {
     const handleAsync = async (tipe) => {
         if (tipe === "create") {
             var data = new FormData($("#createForm")[0]);
+            data.append("id", props.auth.user.id);
             try {
                 await axios({
                     method: "POST",
-                    url: "/api/divisi/create",
+                    url: "/api/report/create",
                     data: data,
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -106,23 +107,54 @@ export default function Store(props) {
     ];
 
     const setValidate = {
-        name: {
+        no: {
             required: true,
-            minlength: 3,
-            maxlength: 50,
+            maxlength: 150,
         },
-        status: {
+        pelapor: {
+            required: true,
+            maxlength: 150,
+        },
+        kejadian: {
+            required: true,
+        },
+        pidana: {
+            required: true,
+            maxlength: 150,
+        },
+        terlapor: {
+            required: true,
+            maxlength: 150,
+        },
+        date: {
             required: true,
         },
     };
 
     const setValidateUpdate = {
-        nameUpdate: {
+        noUpdate: {
             required: true,
-            minlength: 3,
-            maxlength: 50,
+            maxlength: 150,
         },
-        statusUpdate: {
+        pelaporUpdate: {
+            required: true,
+            maxlength: 150,
+        },
+        kejadianUpdate: {
+            required: true,
+        },
+        pidanaUpdate: {
+            required: true,
+            maxlength: 150,
+        },
+        terlaporUpdate: {
+            required: true,
+            maxlength: 150,
+        },
+        dateUpdate: {
+            required: true,
+        },
+        tindak_lanjut: {
             required: true,
         },
     };
@@ -137,6 +169,47 @@ export default function Store(props) {
         }
     };
 
+    const dateTimeNow = () => {
+        var months = [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
+        ];
+
+        var myDays = [
+            "Minggu",
+            "Senin",
+            "Selasa",
+            "Rabu",
+            "Kamis",
+            "Jum&#39;at",
+            "Sabtu",
+        ];
+
+        var date = new Date();
+
+        var day = date.getDate();
+
+        var month = date.getMonth();
+
+        var thisDay = date.getDay(),
+            thisDay = myDays[thisDay];
+
+        var yy = date.getYear();
+
+        var year = yy < 1000 ? yy + 1900 : yy;
+        return thisDay + ", " + day + " " + months[month] + " " + year;
+    };
+
     return (
         <>
             <Head title={namePage} />
@@ -146,7 +219,7 @@ export default function Store(props) {
                         <a>Accounts</a>
                     </li>
                     <li className="breadcrumb-item  active">
-                        <Link href={route("divisi")}>{namePage}</Link>
+                        <Link href={route("report")}>{namePage}</Link>
                     </li>
                 </div>
             </div>
@@ -171,27 +244,27 @@ export default function Store(props) {
                                                         className="form-label"
                                                         htmlFor="name"
                                                     >
-                                                        Name
+                                                        No Report
                                                     </label>
                                                     <input
                                                         type="text"
-                                                        name="name"
-                                                        id="name"
+                                                        name="no"
+                                                        id="no"
                                                         className="form-control"
-                                                        placeholder="Name"
+                                                        placeholder="No Report"
                                                     />
                                                 </div>
                                             </div>
                                             <div className="mb-3 col-md-6">
                                                 <div className="form-group">
                                                     <label className="form-label">
-                                                        Status
+                                                        Waktu di laporkan
                                                     </label>
-                                                    <SelectTo
-                                                        name="status"
-                                                        id="status"
-                                                        data={dataActive}
-                                                        defaultValue=""
+                                                    <input
+                                                        type="datetime-local"
+                                                        name="date"
+                                                        id="date"
+                                                        className="form-control"
                                                     />
                                                 </div>
                                             </div>
@@ -200,12 +273,77 @@ export default function Store(props) {
                                             <div className="mb-3 col-md-6">
                                                 <div className="form-group">
                                                     <label className="form-label">
-                                                        Logo
+                                                        Pelapor
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="pelapor"
+                                                        id="pelapor"
+                                                        className="form-control"
+                                                        placeholder="Pelapor"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Kejadian yang dilaporkan
+                                                    </label>
+                                                    <textarea
+                                                        type="text"
+                                                        name="kejadian"
+                                                        id="kejadian"
+                                                        style={{
+                                                            paddingTop: "10px",
+                                                            height: "100px",
+                                                        }}
+                                                        className="form-control"
+                                                        placeholder="Kejadian"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Tindak Pidana
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="pidana"
+                                                        id="pidana"
+                                                        className="form-control"
+                                                        placeholder="Pidana"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Terlapor
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="terlapor"
+                                                        id="terlapor"
+                                                        className="form-control"
+                                                        placeholder="Terlapor"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="mb-3 col-md-6">
+                                                <div className="form-group">
+                                                    <label className="form-label">
+                                                        Berkas Lainnya
                                                     </label>
                                                     <input
                                                         type="file"
-                                                        name="img"
-                                                        accept="image/*"
+                                                        name="file"
+                                                        accept="image/jpeg,image/jpeg,image/gif,image/png,application/pdf"
                                                         className="form-file-input form-control"
                                                     />
                                                 </div>
@@ -239,16 +377,20 @@ export default function Store(props) {
                                     <DataTables
                                         columns={[
                                             {
-                                                data: "img",
-                                                title: "#",
+                                                data: "tgl",
+                                                title: "Tanggal",
                                             },
                                             {
-                                                data: "name",
-                                                title: "Nama",
+                                                data: "pelapor",
+                                                title: "Pelapor",
+                                            },
+                                            {
+                                                data: "pidana",
+                                                title: "Pidana",
                                             },
                                             {
                                                 data: "status",
-                                                title: "Status",
+                                                title: "Progress",
                                             },
                                             {
                                                 data: "action",
@@ -258,9 +400,9 @@ export default function Store(props) {
                                                 className: "text-right",
                                             },
                                         ]}
-                                        API="/api/divisi"
+                                        API="/api/report"
                                         Method="POST"
-                                        Subject="Divisi"
+                                        Subject="Report"
                                         Action={dataAction()}
                                         setValidate={setValidateUpdate}
                                         csrf_token={props.csrf_token}

@@ -12,7 +12,7 @@ export default function Welcome(props) {
         <>
             <Guest auth={props.auth} header={<b>Home</b>}>
                 <Head title="Home" />
-                <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:items-center">
+                <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center">
                     <div className="fixed top-0 right-0 px-6 py-4 sm:block">
                         {props.auth.user ? (
                             <Link
